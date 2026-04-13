@@ -1,14 +1,9 @@
 import { motion } from "framer-motion";
 import { GripVertical, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { places as allPlaces } from "@/data/places";
 
-const places = [
-  { id: 1, name: "Musée d'Art Moderne", icon: "🏛️", status: "À faire" },
-  { id: 2, name: "Sentier des Crêtes", icon: "🏔️", status: "À faire" },
-  { id: 3, name: "Rue des Artisans", icon: "🏘️", status: "À faire" },
-  { id: 4, name: "Belvédère du Coucher de Soleil", icon: "🌅", status: "À faire" },
-  { id: 5, name: "Cathédrale Saint-Pierre", icon: "⛪", status: "À faire" },
-];
+const carnetPlaces = allPlaces.slice(0, 5).map((p) => ({ ...p, status: "À faire" }));
 
 interface Props {
   onStartVoyage: () => void;
@@ -19,17 +14,16 @@ const CarnetScreen = ({ onStartVoyage }: Props) => (
     <h1 className="font-display font-extrabold text-xl mb-1">Mon Carnet de Route</h1>
     <p className="text-sm text-muted-foreground font-body mb-6">Ton itinéraire personnalisé</p>
 
-    {/* Notebook visual */}
     <div className="notebook-page p-5 mb-6">
       <div className="flex items-center gap-2 mb-4">
         <div className="w-8 h-8 rounded-full bg-gold/20 flex items-center justify-center">
           <MapPin size={16} className="text-gold" />
         </div>
-        <span className="font-display font-bold text-sm">{places.length} étapes</span>
+        <span className="font-display font-bold text-sm">{carnetPlaces.length} étapes</span>
       </div>
 
       <div className="flex flex-col gap-3">
-        {places.map((p, i) => (
+        {carnetPlaces.map((p, i) => (
           <motion.div
             key={p.id}
             initial={{ opacity: 0, x: -20 }}
@@ -38,7 +32,7 @@ const CarnetScreen = ({ onStartVoyage }: Props) => (
             className="flex items-center gap-3 p-3 rounded-lg bg-background/60 border border-border/50"
           >
             <GripVertical size={14} className="text-muted-foreground/40 shrink-0 cursor-grab" />
-            <span className="text-xl shrink-0">{p.icon}</span>
+            <img src={p.img} alt={p.name} loading="lazy" className="w-10 h-10 rounded-lg object-cover shrink-0" />
             <div className="flex-1 min-w-0">
               <p className="font-display font-semibold text-sm truncate">{p.name}</p>
               <span className="text-[10px] text-muted-foreground font-body">{p.status}</span>

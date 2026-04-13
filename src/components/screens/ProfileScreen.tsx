@@ -1,25 +1,33 @@
 import { motion } from "framer-motion";
-import { Printer, Crown, Flame } from "lucide-react";
+import { Printer, Crown, Flame, Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { places } from "@/data/places";
 
 interface Props {
   onPrintCarnet: () => void;
   onPremium: () => void;
+  onNotifications: () => void;
 }
 
-const ProfileScreen = ({ onPrintCarnet, onPremium }: Props) => {
+const ProfileScreen = ({ onPrintCarnet, onPremium, onNotifications }: Props) => {
   const pct = 80;
+  const souvenirs = places.slice(0, 5);
+
   return (
     <div className="px-5 pt-8 pb-8 bg-background min-h-screen">
-      {/* Avatar */}
+      {/* Avatar + notifications */}
       <div className="flex items-center gap-4 mb-6">
         <div className="w-14 h-14 rounded-full bg-sage-light flex items-center justify-center text-2xl font-display font-bold">
           🧭
         </div>
-        <div>
+        <div className="flex-1">
           <h1 className="font-display font-extrabold text-lg">Léa Dumont</h1>
           <p className="text-xs text-muted-foreground font-body">Voyageuse curieuse depuis 2024</p>
         </div>
+        <button onClick={onNotifications} className="w-10 h-10 rounded-full bg-card border border-border flex items-center justify-center relative">
+          <Bell size={18} className="text-muted-foreground" />
+          <div className="absolute -top-0.5 -right-0.5 w-3 h-3 rounded-full bg-accent border-2 border-background" />
+        </button>
       </div>
 
       {/* Streak */}
@@ -55,10 +63,8 @@ const ProfileScreen = ({ onPrintCarnet, onPremium }: Props) => {
       <div className="notebook-page p-5 mb-4">
         <h3 className="font-display font-bold text-sm mb-3">Souvenirs</h3>
         <div className="flex gap-2 flex-wrap">
-          {["🏛️", "⛪", "🏔️", "🌅", "🏘️"].map((e, i) => (
-            <div key={i} className="w-12 h-12 rounded-lg bg-sage-light/50 flex items-center justify-center text-xl border border-border">
-              {e}
-            </div>
+          {souvenirs.map((p) => (
+            <img key={p.id} src={p.img} alt={p.name} loading="lazy" className="w-12 h-12 rounded-lg object-cover border border-border" />
           ))}
           <div className="w-12 h-12 rounded-lg bg-gold/10 flex items-center justify-center border border-gold/30">
             <span className="text-lg">✨</span>

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import MobileShell from "@/components/MobileShell";
 import OnboardingScreen from "@/components/screens/OnboardingScreen";
 import LoginScreen from "@/components/screens/LoginScreen";
@@ -35,6 +36,18 @@ type Screen =
 
 type Tab = "carnet" | "carte" | "equipe" | "profil";
 
+const pageVariants = {
+  initial: { opacity: 0, x: 60, rotateY: -8 },
+  animate: { opacity: 1, x: 0, rotateY: 0 },
+  exit: { opacity: 0, x: -60, rotateY: 8 },
+};
+
+const pageTransition = {
+  type: "tween" as const,
+  ease: [0.4, 0, 0.2, 1],
+  duration: 0.35,
+};
+
 const Index = () => {
   const [screen, setScreen] = useState<Screen>("onboarding");
   const [activeTab, setActiveTab] = useState<Tab>("carte");
@@ -68,7 +81,7 @@ const Index = () => {
       case "hiddenGem":
         return <HiddenGemScreen onContinue={() => { setScreen("home"); setActiveTab("carte"); }} />;
       case "profile":
-        return <ProfileScreen onPrintCarnet={() => setScreen("printedCarnet")} onPremium={() => setScreen("premium")} />;
+        return <ProfileScreen onPrintCarnet={() => setScreen("printedCarnet")} onPremium={() => setScreen("premium")} onNotifications={() => setScreen("notifications")} />;
       case "printedCarnet":
         return <PrintedCarnetScreen onBack={() => setScreen("profile")} />;
       case "ticket":
@@ -88,7 +101,19 @@ const Index = () => {
 
   return (
     <MobileShell activeTab={activeTab} onTabChange={handleTabChange} hideNav={!showNav}>
-      {renderScreen()}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={screen}
+          variants={pageVariants}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          transition={pageTransition}
+          style={{ perspective: 1200 }}
+        >
+          {renderScreen()}
+        </motion.div>
+      </AnimatePresence>
     </MobileShell>
   );
 };
