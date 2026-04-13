@@ -41,7 +41,7 @@ const OnboardingScreen = ({ onGetStarted, onLogin }: Props) => {
           <BookOpen className="text-primary-foreground" size={36} />
         </div>
         <h1 className="text-2xl font-display font-extrabold text-foreground tracking-tight">
-          EcoQuest Tour
+          L'ODYSSÉE
         </h1>
         <p className="text-sm text-muted-foreground text-center max-w-[260px] font-body">
           Construit ton Carnet de Route. Vis, tamponne, garde le souvenir.
