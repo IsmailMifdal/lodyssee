@@ -13,6 +13,10 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        display: ["Nunito", "sans-serif"],
+        body: ["Source Sans 3", "sans-serif"],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -47,6 +51,25 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        sage: {
+          DEFAULT: "hsl(var(--sage))",
+          light: "hsl(var(--sage-light))",
+          dark: "hsl(var(--sage-dark))",
+        },
+        navy: {
+          DEFAULT: "hsl(var(--navy))",
+          light: "hsl(var(--navy-light))",
+        },
+        sand: {
+          DEFAULT: "hsl(var(--sand))",
+          dark: "hsl(var(--sand-dark))",
+        },
+        gold: {
+          DEFAULT: "hsl(var(--gold))",
+          light: "hsl(var(--gold-light))",
+        },
+        amber: "hsl(var(--amber))",
+        "stamp-red": "hsl(var(--stamp-red))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
@@ -65,25 +88,33 @@ export default {
       },
       keyframes: {
         "accordion-down": {
-          from: {
-            height: "0",
-          },
-          to: {
-            height: "var(--radix-accordion-content-height)",
-          },
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
         },
         "accordion-up": {
-          from: {
-            height: "var(--radix-accordion-content-height)",
-          },
-          to: {
-            height: "0",
-          },
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+        "stamp-slam": {
+          "0%": { transform: "scale(3) rotate(-15deg)", opacity: "0" },
+          "60%": { transform: "scale(0.95) rotate(5deg)", opacity: "1" },
+          "100%": { transform: "scale(1) rotate(-3deg)", opacity: "1" },
+        },
+        "page-reveal": {
+          "0%": { transform: "rotateY(-90deg)", opacity: "0" },
+          "100%": { transform: "rotateY(0deg)", opacity: "1" },
+        },
+        "gauge-fill": {
+          "0%": { width: "0%" },
+          "100%": { width: "var(--gauge-width)" },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "stamp-slam": "stamp-slam 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards",
+        "page-reveal": "page-reveal 0.6s ease-out forwards",
+        "gauge-fill": "gauge-fill 1s ease-out forwards",
       },
     },
   },

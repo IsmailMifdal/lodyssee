@@ -1,16 +1,96 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import MobileShell from "@/components/MobileShell";
+import OnboardingScreen from "@/components/screens/OnboardingScreen";
+import LoginScreen from "@/components/screens/LoginScreen";
+import BucketListScreen from "@/components/screens/BucketListScreen";
+import CarnetScreen from "@/components/screens/CarnetScreen";
+import HomeMapScreen from "@/components/screens/HomeMapScreen";
+import PlaceDetailScreen from "@/components/screens/PlaceDetailScreen";
+import CheckInScreen from "@/components/screens/CheckInScreen";
+import HiddenGemScreen from "@/components/screens/HiddenGemScreen";
+import ProfileScreen from "@/components/screens/ProfileScreen";
+import PrintedCarnetScreen from "@/components/screens/PrintedCarnetScreen";
+import TicketScreen from "@/components/screens/TicketScreen";
+import LeaderboardScreen from "@/components/screens/LeaderboardScreen";
+import TeamFeedScreen from "@/components/screens/TeamFeedScreen";
+import PremiumScreen from "@/components/screens/PremiumScreen";
+import NotificationsScreen from "@/components/screens/NotificationsScreen";
 
-// IMPORTANT: Fully REPLACE this with your own code
-const PlaceholderIndex = () => {
-  // PLACEHOLDER: Replace this entire return statement with the user's app.
-  // The inline background color is intentionally not part of the design system.
+type Screen =
+  | "onboarding"
+  | "login"
+  | "bucketlist"
+  | "carnet"
+  | "home"
+  | "placeDetail"
+  | "checkin"
+  | "hiddenGem"
+  | "profile"
+  | "printedCarnet"
+  | "ticket"
+  | "leaderboard"
+  | "teamFeed"
+  | "premium"
+  | "notifications";
+
+type Tab = "carnet" | "carte" | "equipe" | "profil";
+
+const Index = () => {
+  const [screen, setScreen] = useState<Screen>("onboarding");
+  const [activeTab, setActiveTab] = useState<Tab>("carte");
+
+  const showNav = ["home", "leaderboard", "profile"].includes(screen);
+
+  const handleTabChange = (tab: Tab) => {
+    setActiveTab(tab);
+    if (tab === "carnet") setScreen("home");
+    if (tab === "carte") setScreen("home");
+    if (tab === "equipe") setScreen("leaderboard");
+    if (tab === "profil") setScreen("profile");
+  };
+
+  const renderScreen = () => {
+    switch (screen) {
+      case "onboarding":
+        return <OnboardingScreen onGetStarted={() => setScreen("bucketlist")} onLogin={() => setScreen("login")} />;
+      case "login":
+        return <LoginScreen onLogin={() => setScreen("bucketlist")} onBack={() => setScreen("onboarding")} />;
+      case "bucketlist":
+        return <BucketListScreen onViewCarnet={() => setScreen("carnet")} />;
+      case "carnet":
+        return <CarnetScreen onStartVoyage={() => { setScreen("home"); setActiveTab("carte"); }} />;
+      case "home":
+        return <HomeMapScreen onSelectPlace={() => setScreen("placeDetail")} />;
+      case "placeDetail":
+        return <PlaceDetailScreen onBack={() => setScreen("home")} onCheckIn={() => setScreen("checkin")} />;
+      case "checkin":
+        return <CheckInScreen onContinue={() => setScreen("hiddenGem")} />;
+      case "hiddenGem":
+        return <HiddenGemScreen onContinue={() => { setScreen("home"); setActiveTab("carte"); }} />;
+      case "profile":
+        return <ProfileScreen onPrintCarnet={() => setScreen("printedCarnet")} onPremium={() => setScreen("premium")} />;
+      case "printedCarnet":
+        return <PrintedCarnetScreen onBack={() => setScreen("profile")} />;
+      case "ticket":
+        return <TicketScreen onBack={() => setScreen("placeDetail")} />;
+      case "leaderboard":
+        return <LeaderboardScreen />;
+      case "teamFeed":
+        return <TeamFeedScreen onBack={() => setScreen("leaderboard")} />;
+      case "premium":
+        return <PremiumScreen onBack={() => setScreen("profile")} />;
+      case "notifications":
+        return <NotificationsScreen onBack={() => setScreen("profile")} />;
+      default:
+        return null;
+    }
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#fcfbf8' }}>
-      <img data-lovable-blank-page-placeholder="REMOVE_THIS" src="/placeholder.svg" alt="Your app will live here!" />
-    </div>
+    <MobileShell activeTab={activeTab} onTabChange={handleTabChange} hideNav={!showNav}>
+      {renderScreen()}
+    </MobileShell>
   );
 };
-
-const Index = PlaceholderIndex;
 
 export default Index;
